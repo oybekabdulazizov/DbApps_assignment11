@@ -9,6 +9,8 @@ namespace Project01.Models
         public DbSet<Patient> Patient { get; set; }
         public DbSet<Prescription> Prescription { get; set; }
         public DbSet<PrescriptionMedicament> PrescriptionMedicament { get; set; }
+        public DbSet<Medicament> Medicament { get; set; }
+        public DbSet<Doctor> Doctor { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,6 +26,14 @@ namespace Project01.Models
                 
             });
 
+            modelBuilder.Entity<Doctor>(entity =>
+            {
+                entity.HasKey(d => d.IdDoctor).HasName("Doctor_PK");
+                entity.Property(d => d.FirstName).HasMaxLength(100).IsRequired();
+                entity.Property(d => d.LastName).HasMaxLength(100).IsRequired();
+                entity.Property(d => d.Email).HasMaxLength(100).IsRequired();
+            });
+
             modelBuilder.Entity<Prescription>(entity =>
             {
                 entity.HasKey(e => e.IdPrescription).HasName("Prescription_PK");
@@ -36,11 +46,19 @@ namespace Project01.Models
                       .OnDelete(DeleteBehavior.Restrict)
                       .HasConstraintName("Prescription_Patient_FK");
 
-               /* entity.HasOne(e => e.Doctor)
+                entity.HasOne(e => e.Doctor)
                       .WithMany(d => d.Prescriptions)
                       .HasForeignKey(p => p.IdDoctor)
                       .OnDelete(DeleteBehavior.Restrict)
-                      .HasConstraintName("Prescription_Doctor_FK");*/
+                      .HasConstraintName("Prescription_Doctor_FK");
+            });
+
+            modelBuilder.Entity<Medicament>(entity =>
+            {
+                entity.HasKey(m => m.IdMedicament).HasName("Medicament_PK");
+                entity.Property(m => m.Name).HasMaxLength(100).IsRequired();
+                entity.Property(m => m.Description).HasMaxLength(200).IsRequired();
+                entity.Property(m => m.Type).HasMaxLength(100).IsRequired();
             });
 
             modelBuilder.Entity<PrescriptionMedicament>(entity =>

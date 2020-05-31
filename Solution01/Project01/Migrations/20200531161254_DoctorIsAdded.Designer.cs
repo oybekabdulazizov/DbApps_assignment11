@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project01.Models;
 
 namespace Project01.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200531161254_DoctorIsAdded")]
+    partial class DoctorIsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,34 +47,6 @@ namespace Project01.Migrations
                         .HasName("Doctor_PK");
 
                     b.ToTable("Doctor");
-                });
-
-            modelBuilder.Entity("Project01.Models.Medicament", b =>
-                {
-                    b.Property<int>("IdMedicament")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("IdMedicament")
-                        .HasName("Medicament_PK");
-
-                    b.ToTable("Medicament");
                 });
 
             modelBuilder.Entity("Project01.Models.Patient", b =>
@@ -148,17 +122,7 @@ namespace Project01.Migrations
                     b.Property<int>("Dose")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MedicamentIdMedicament")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PrescriptionIdPrescription")
-                        .HasColumnType("int");
-
                     b.HasKey("IdPresctiption", "IdMedicament");
-
-                    b.HasIndex("MedicamentIdMedicament");
-
-                    b.HasIndex("PrescriptionIdPrescription");
 
                     b.ToTable("Prescription_Medicament");
                 });
@@ -178,17 +142,6 @@ namespace Project01.Migrations
                         .HasConstraintName("Prescription_Patient_FK")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Project01.Models.PrescriptionMedicament", b =>
-                {
-                    b.HasOne("Project01.Models.Medicament", "Medicament")
-                        .WithMany("PrescriptionMedicaments")
-                        .HasForeignKey("MedicamentIdMedicament");
-
-                    b.HasOne("Project01.Models.Prescription", "Prescription")
-                        .WithMany("PrescriptionMedicaments")
-                        .HasForeignKey("PrescriptionIdPrescription");
                 });
 #pragma warning restore 612, 618
         }
