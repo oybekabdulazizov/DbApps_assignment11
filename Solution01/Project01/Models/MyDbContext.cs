@@ -23,8 +23,9 @@ namespace Project01.Models
                 entity.Property(e => e.FirstName).HasMaxLength(100).IsRequired();
                 entity.Property(e => e.LastName).HasMaxLength(100).IsRequired();
                 entity.Property(e => e.BirthDate).IsRequired(); 
-                
+
             });
+            modelBuilder.SeedEmployee();
 
             modelBuilder.Entity<Doctor>(entity =>
             {

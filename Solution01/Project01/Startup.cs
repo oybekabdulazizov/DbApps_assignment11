@@ -29,7 +29,7 @@ namespace Project01
         {
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("MedicamentDb"));
+                options.UseSqlServer(Configuration["ConnectionStrings:MedicamentDb"]);
             });
             services.AddControllers();
         }
