@@ -35,6 +35,12 @@ namespace Project01.Models
                       .HasForeignKey(p => p.IdPatient)
                       .OnDelete(DeleteBehavior.Restrict)
                       .HasConstraintName("Prescription_Patient_FK");
+
+               /* entity.HasOne(e => e.Doctor)
+                      .WithMany(d => d.Prescriptions)
+                      .HasForeignKey(p => p.IdDoctor)
+                      .OnDelete(DeleteBehavior.Restrict)
+                      .HasConstraintName("Prescription_Doctor_FK");*/
             });
 
             modelBuilder.Entity<PrescriptionMedicament>(entity =>
@@ -45,6 +51,8 @@ namespace Project01.Models
                     e.IdPresctiption,
                     e.IdMedicament
                 });
+                entity.Property(e => e.Dose).IsRequired();
+                entity.Property(e => e.Details).HasMaxLength(100).IsRequired();
             });
         }
     }

@@ -9,5 +9,7 @@ namespace Project01.Models
     {
         public int IdPresctiption { get; set; }
         public int IdMedicament { get; set; }
+        public int Dose { get; set; }
+        public string Details { get; set; }
     }
 }
